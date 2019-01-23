@@ -1,0 +1,74 @@
+{% extends 'baseHtml.html' %}
+{% block title %}Plant Disease Finder{% endblock %}
+
+
+{% block body %}
+    {#    <style>#}
+    {#        .container {#}
+    {#            margin-top: 40vh;#}
+    {#            text-align: center;#}
+    {#vertical-align: middle;#}
+    {#            white-space: nowrap;#}
+    {#            width: 750px;#}
+    {#        }#}
+    {#    </style>#}
+
+    <!-- Search Box -->
+    <div class="container">
+
+        <div style="padding : 10px; marginTop : 20px; font-size: 24px; font-family: Arial, Helvetica">
+            Upload the image of diseased plant
+        </div>
+
+        <form action="#" role="search" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="file" id="search" class="form-control" placeholder="Upload Image" name="document">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-md" type="submit">
+                        <i class="glyphicon glyphicon-upload"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div style="margin-top: 50px;">
+            {% if determiner %}
+{#                <span class="column">#}
+{#                        <img style="height: 300px; width: auto; border-radius: 5px" src={{ segmented }}/>#}
+{#                        <img style="height: 300px; width: auto; border-radius: 5px" src={{ original }}/>#}
+{#                </span>#}
+                <div style="marginTop : 20px; marginBottom: 20px; font-size: 50px; font-family: Arial, Helvetica">{{ content.name }}</div>
+                <div class="row">
+                    {% for image in content.related %}
+                        <span class="column">
+                            <img style="height: 200px; width: auto; border-radius: 5px" src={{ image }}/>
+                        </span>
+                    {% endfor %}
+                </div>
+                <div style="margin-top: 30px;">
+                    <div style="color : #8b8b8b; font-size: 22px">What's the disease?</div>
+                    {% for information in content.information %}
+                        <div style="padding-top : 10px; font-size: 17px; font-family: Arial, Helvetica">{{ information }}</div>
+                    {% endfor %}
+                </div>
+                <div style="margin-top: 30px;">
+                    <div style="color : #8b8b8b; font-size: 22px">{{ 'How can I cure it?' }}
+                    </div>
+                    <ul>
+                        {% for treatment in content.treatment %}
+                            <li style="padding-top : 5px; font-size: 17px; font-family: Arial, Helvetica">{{ treatment }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div style = "margin-bottom: 40px">
+                 <div style="color : #8b8b8b; font-size: 22px; margin-top: 20px; ">Further reading</div>
+                {% for further in content.further %}
+                        <a style="padding-top : 10px; font-size: 17px; font-family: Arial, Helvetica; cursor: pointer" href={{ further }}>{{ further }}</a><br/>
+
+                {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- end search box -->
+{% endblock %}
